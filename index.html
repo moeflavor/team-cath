@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoeFlavor - Shark Challenge Campaign</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       RESET & Y2K OCEAN THEME VARIABLES
+    ============================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      /* Y2K Ocean Palette */
+      --ocean-deep: #0a1628;
+      --ocean-dark: #0d2137;
+      --ocean-mid: #1a4a7a;
+      --ocean-bright: #00b4d8;
+      --ocean-glow: #48cae4;
+      --aqua-light: #90e0ef;
+      --aqua-pastel: #caf0f8;
+      --y2k-pink: #ff6b9d;
+      --y2k-hotpink: #ff2d78;
+      --y2k-lavender: #c9b1ff;
+      --y2k-lilac: #e4ccff;
+      --y2k-silver: #c0c0c0;
+      --y2k-chrome: linear-gradient(135deg, #e8e8e8, #b8b8b8, #e8e8e8);
+      --star-gold: #ffd700;
+      --white: #ffffff;
+      --text-dark: #0a1628;
+      --text-light: rgba(255,255,255,0.92);
+      --glass: rgba(255,255,255,0.08);
+      --glass-border: rgba(255,255,255,0.15);
+      --glass-strong: rgba(255,255,255,0.12);
+
+      /* Fonts */
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text-light);
+      background: var(--ocean-deep);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       ANIMATED OCEAN GRADIENT BACKGROUND
+    ============================================ */
+    .ocean-gradient-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      background: linear-gradient(
+        180deg,
+        #0a1628 0%,
+        #0d2847 20%,
+        #0e3a5e 40%,
+        #0a2d4d 60%,
+        #091e36 80%,
+        #0a1628 100%
+      );
+    }
+
+    /* Animated light rays */
+    .light-rays {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .light-ray {
+      position: absolute;
+      top: -20%;
+      width: 2px;
+      height: 60%;
+      background: linear-gradient(180deg, rgba(72,202,228,0.3), transparent);
+      animation: ray-drift 12s ease-in-out infinite;
+      opacity: 0.4;
+    }
+
+    @keyframes ray-drift {
+      0%, 100% { transform: translateY(-10%) rotate(2deg); opacity: 0.2; }
+      50% { transform: translateY(5%) rotate(-2deg); opacity: 0.5; }
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: particle-float linear infinite;
+      opacity: 0;
+    }
+
+    .particle--star {
+      background: var(--star-gold);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      border-radius: 0;
+    }
+
+    @keyframes particle-float {
+      0%   { transform: translateY(100vh) scale(0.3) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.7; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) scale(1) rotate(360deg); opacity: 0; }
+    }
+
+    /* ============================================
+       Y2K DECORATIVE ELEMENTS
+    ============================================ */
+    .y2k-star {
+      position: absolute;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .y2k-star::before {
+      content: '';
+      display: block;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      animation: star-twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes star-twinkle {
+      0%, 100% { opacity: 0.4; transform: scale(0.8) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1.1) rotate(15deg); }
+    }
+
+    /* ============================================
+       SECTION BASE STYLES
+    ============================================ */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 120px 24px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 8px 24px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+    }
+
+    .section-label--pink {
+      background: linear-gradient(135deg, var(--y2k-hotpink), var(--y2k-pink));
+      color: var(--white);
+    }
+
+    .section-label--ocean {
+      background: linear-gradient(135deg, var(--ocean-bright), var(--ocean-glow));
+      color: var(--ocean-deep);
+    }
+
+    .section-label--lavender {
+      background: linear-gradient(135deg, var(--y2k-lavender), var(--y2k-lilac));
+      color: var(--ocean-deep);
+    }
+
+    .section-label--gold {
+      background: linear-gradient(135deg, #ffd700, #ffaa00);
+      color: var(--ocean-deep);
+    }
+
+    /* Glass card effect */
+    .glass-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 40px;
+    }
+
+    /* ============================================
+       ANIMATION UTILITIES
+    ============================================ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-up-delay-1 { transition-delay: 0.15s; }
+    .fade-up-delay-2 { transition-delay: 0.3s; }
+    .fade-up-delay-3 { transition-delay: 0.45s; }
+
+    /* ============================================
+       NAVIGATION
+    ============================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 16px 24px;
+      background: rgba(10,22,40,0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      height: 28px;
+      opacity: 0.9;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--ocean-glow);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* ============================================
+       HERO SECTION
+    ============================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--y2k-pink);
+      margin-bottom: 16px;
+      animation: fade-slide-up 1s ease-out both;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+      animation: fade-slide-up 1s ease-out 0.2s both;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--ocean-glow), var(--y2k-pink), var(--y2k-lavender));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero h1 .shark-emoji {
+      -webkit-text-fill-color: initial;
+      display: inline-block;
+      animation: shark-swim 3s ease-in-out infinite;
+    }
+
+    @keyframes shark-swim {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      25% { transform: translateX(8px) rotate(5deg); }
+      75% { transform: translateX(-8px) rotate(-5deg); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: rgba(255,255,255,0.65);
+      max-width: 600px;
+      margin: 0 auto 48px;
+      line-height: 1.8;
+      animation: fade-slide-up 1s ease-out 0.4s both;
+    }
+
+    .hero-subtitle strong {
+      color: var(--ocean-glow);
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ocean-deep);
+      background: linear-gradient(135deg, var(--ocean-glow), var(--aqua-light));
+      padding: 16px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: fade-slide-up 1s ease-out 0.6s both;
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(72,202,228,0.3);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: fade-slide-up 1s ease-out 1s both, gentle-bounce 2.5s ease-in-out 2s infinite;
+      font-size: 1.5rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    @keyframes gentle-bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    @keyframes fade-slide-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Shark silhouette in hero bg */
+    .hero-shark-bg {
+      position: absolute;
+      bottom: -5%;
+      right: -5%;
+      width: 500px;
+      height: 500px;
+      opacity: 0.04;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-shark-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* ============================================
+       THE STORY SECTION
+    ============================================ */
+    .story-section {
+      padding: 140px 24px;
+      position: relative;
+    }
+
+    .story-section .container {
+      max-width: 800px;
+    }
+
+    .story-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .story-header h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -1px;
+    }
+
+    .story-header h2 .highlight {
+      color: var(--y2k-pink);
+    }
+
+    .story-narrative {
+      position: relative;
+    }
+
+    .story-card {
+      position: relative;
+      padding: 48px;
+      border-radius: 28px;
+      margin-bottom: 32px;
+    }
+
+    .story-card--dark {
+      background: linear-gradient(135deg, rgba(255,107,157,0.08), rgba(201,177,255,0.06));
+      border: 1px solid rgba(255,107,157,0.15);
+    }
+
+    .story-card--glow {
+      background: linear-gradient(135deg, rgba(72,202,228,0.1), rgba(0,180,216,0.06));
+      border: 1px solid rgba(72,202,228,0.2);
+    }
+
+    .story-card--empowerment {
+      background: linear-gradient(135deg, rgba(255,45,120,0.12), rgba(72,202,228,0.08));
+      border: 1px solid rgba(255,45,120,0.2);
+    }
+
+    .story-icon {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .story-quote {
+      font-family: var(--font-body);
+      font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+      font-style: italic;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .story-quote strong {
+      color: var(--y2k-pink);
+      font-style: normal;
+    }
+
+    .story-quote .ocean-highlight {
+      color: var(--ocean-glow);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .story-closing {
+      text-align: center;
+      margin-top: 48px;
+      font-family: var(--font-heading);
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .story-closing .gradient-text {
+      background: linear-gradient(135deg, var(--y2k-pink), var(--ocean-glow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Decorative line */
+    .divider-line {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--y2k-pink), var(--ocean-glow));
+      margin: 0 auto 24px;
+      border-radius: 2px;
+    }
+
+    /* ============================================
+       BEHIND THE SCENES / BACKSTORY
+    ============================================ */
+    .backstory-section {
+      padding: 140px 24px;
+      position: relative;
+    }
+
+    .backstory-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .backstory-grid { grid-template-columns: 1fr; }
+    }
+
+    .backstory-visual {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, var(--ocean-mid), var(--ocean-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .backstory-visual .placeholder-text {
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      padding: 24px;
+    }
+
+    .backstory-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .backstory-content h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
+    }
+
+    .backstory-content h2 .highlight {
+      color: var(--ocean-glow);
+    }
+
+    .backstory-content p {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 20px;
+    }
+
+    .backstory-content p strong {
+      color: var(--y2k-pink);
+    }
+
+    .backstory-content p .ocean-text {
+      color: var(--ocean-glow);
+      font-weight: 600;
+    }
+
+    /* ============================================
+       CAMPAIGN STRATEGY - 3 POST SERIES
+    ============================================ */
+    .campaign-section {
+      padding: 140px 24px;
+      text-align: center;
+    }
+
+    .campaign-header {
+      margin-bottom: 64px;
+    }
+
+    .campaign-header h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .campaign-header p {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    .post-series {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .post-series { grid-template-columns: 1fr; }
+    }
+
+    .post-card {
+      border-radius: 24px;
+      padding: 36px 28px;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .post-card--story {
+      background: linear-gradient(160deg, rgba(255,45,120,0.15), rgba(255,107,157,0.06));
+      border: 1px solid rgba(255,45,120,0.25);
+    }
+
+    .post-card--story:hover {
+      box-shadow: 0 12px 40px rgba(255,45,120,0.15);
+    }
+
+    .post-card--meme {
+      background: linear-gradient(160deg, rgba(255,215,0,0.12), rgba(255,170,0,0.06));
+      border: 1px solid rgba(255,215,0,0.2);
+    }
+
+    .post-card--meme:hover {
+      box-shadow: 0 12px 40px rgba(255,215,0,0.12);
+    }
+
+    .post-card--bts {
+      background: linear-gradient(160deg, rgba(72,202,228,0.12), rgba(0,180,216,0.06));
+      border: 1px solid rgba(72,202,228,0.2);
+    }
+
+    .post-card--bts:hover {
+      box-shadow: 0 12px 40px rgba(72,202,228,0.12);
+    }
+
+    .post-number {
+      font-family: var(--font-heading);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .post-number--1 {
+      background: rgba(255,45,120,0.2);
+      color: var(--y2k-pink);
+    }
+
+    .post-number--2 {
+      background: rgba(255,215,0,0.2);
+      color: var(--star-gold);
+    }
+
+    .post-number--3 {
+      background: rgba(72,202,228,0.2);
+      color: var(--ocean-glow);
+    }
+
+    .post-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+
+    .post-card .post-type {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .post-card p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .post-card .post-emoji {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    /* Image placeholder in post cards */
+    .post-image-slot {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 16px;
+      margin-top: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px dashed rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-family: var(--font-heading);
+    }
+
+    /* ============================================
+       MEME SECTION
+    ============================================ */
+    .meme-section {
+      padding: 120px 24px;
+      text-align: center;
+    }
+
+    .meme-container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .meme-header h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .meme-header p {
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 36px;
+    }
+
+    .meme-bold-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--star-gold), var(--y2k-pink), var(--ocean-glow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: meme-title-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes meme-title-pulse {
+      0%, 100% { transform: scale(1); filter: brightness(1); }
+      50% { transform: scale(1.03); filter: brightness(1.15); }
+    }
+
+    .meme-slot {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255,215,0,0.06), rgba(255,107,157,0.04));
+      border: 2px dashed rgba(255,215,0,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .meme-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 22px;
+    }
+
+    .meme-slot .meme-placeholder-icon {
+      font-size: 3rem;
+    }
+
+    .meme-slot .meme-placeholder-text {
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ============================================
+       MAIN POST PHOTOS GRID
+    ============================================ */
+    .main-photos-section {
+      padding: 80px 24px 140px;
+      position: relative;
+    }
+
+    .main-photos-section .container {
+      max-width: 800px;
+    }
+
+    .main-photos-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .main-photos-header h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .main-photos-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .main-photo-item {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,107,157,0.06), rgba(72,202,228,0.04));
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+
+    .main-photo-item::after {
+      content: '';
+      display: block;
+      padding-bottom: 125%;
+    }
+
+    .main-photo-item:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(255,107,157,0.15);
+      border-color: rgba(255,107,157,0.25);
+    }
+
+    .main-photo-item img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .main-photo-item .photo-placeholder {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .main-photo-item .photo-placeholder-icon {
+      font-size: 1.8rem;
+      opacity: 0.4;
+    }
+
+    .main-photo-item .photo-placeholder-text {
+      font-family: var(--font-heading);
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* Cute heart decoration on hover */
+    .main-photo-item::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 28px;
+      height: 28px;
+      background: rgba(255,45,120,0.8);
+      border-radius: 50%;
+      z-index: 2;
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-photo-item:hover::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    @media (max-width: 768px) {
+      .main-photos-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-photos-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ============================================
+       MARKETING ANALYSIS SECTION
+    ============================================ */
+    .marketing-section {
+      padding: 140px 24px;
+    }
+
+    .marketing-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .marketing-header h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    .marketing-header p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.55);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .marketing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      max-width: 960px;
+      margin: 0 auto 48px;
+    }
+
+    @media (max-width: 768px) {
+      .marketing-grid { grid-template-columns: 1fr; }
+    }
+
+    .marketing-card {
+      border-radius: 24px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .marketing-card--emotional {
+      background: linear-gradient(160deg, rgba(255,45,120,0.1), rgba(201,177,255,0.05));
+      border: 1px solid rgba(255,45,120,0.15);
+    }
+
+    .marketing-card--engagement {
+      background: linear-gradient(160deg, rgba(72,202,228,0.1), rgba(0,180,216,0.05));
+      border: 1px solid rgba(72,202,228,0.15);
+    }
+
+    .marketing-card--ugc {
+      background: linear-gradient(160deg, rgba(255,215,0,0.08), rgba(255,170,0,0.04));
+      border: 1px solid rgba(255,215,0,0.15);
+    }
+
+    .marketing-card--conversion {
+      background: linear-gradient(160deg, rgba(201,177,255,0.1), rgba(228,204,255,0.05));
+      border: 1px solid rgba(201,177,255,0.15);
+    }
+
+    .marketing-card .card-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .marketing-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .marketing-card p {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.68);
+    }
+
+    .marketing-card p strong {
+      color: rgba(255,255,255,0.92);
+    }
+
+    /* Stats row */
+    .marketing-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .marketing-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 28px 16px;
+      border-radius: 20px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+    }
+
+    .stat-number {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .stat-number--pink { color: var(--y2k-pink); }
+    .stat-number--ocean { color: var(--ocean-glow); }
+    .stat-number--gold { color: var(--star-gold); }
+    .stat-number--lavender { color: var(--y2k-lavender); }
+
+    .stat-label {
+      font-family: var(--font-heading);
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* Funnel section */
+    .marketing-funnel {
+      max-width: 700px;
+      margin: 64px auto 0;
+      text-align: center;
+    }
+
+    .marketing-funnel h3 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 32px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .funnel-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: center;
+    }
+
+    .funnel-step {
+      padding: 20px 32px;
+      border-radius: 16px;
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .funnel-step:hover { transform: scale(1.02); }
+
+    .funnel-step--1 {
+      width: 100%;
+      background: linear-gradient(90deg, rgba(255,45,120,0.15), rgba(255,45,120,0.05));
+      border: 1px solid rgba(255,45,120,0.2);
+      color: var(--y2k-pink);
+    }
+
+    .funnel-step--2 {
+      width: 85%;
+      background: linear-gradient(90deg, rgba(255,215,0,0.12), rgba(255,215,0,0.04));
+      border: 1px solid rgba(255,215,0,0.18);
+      color: var(--star-gold);
+    }
+
+    .funnel-step--3 {
+      width: 70%;
+      background: linear-gradient(90deg, rgba(72,202,228,0.12), rgba(72,202,228,0.04));
+      border: 1px solid rgba(72,202,228,0.18);
+      color: var(--ocean-glow);
+    }
+
+    .funnel-step--4 {
+      width: 55%;
+      background: linear-gradient(90deg, rgba(201,177,255,0.15), rgba(201,177,255,0.05));
+      border: 1px solid rgba(201,177,255,0.2);
+      color: var(--y2k-lavender);
+    }
+
+    .funnel-arrow {
+      color: rgba(255,255,255,0.2);
+      font-size: 1.2rem;
+      margin: 4px 0;
+    }
+
+    /* ============================================
+       FOOTER / CLOSING
+    ============================================ */
+    .closing-section {
+      padding: 120px 24px 80px;
+      text-align: center;
+    }
+
+    .closing-section h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+
+    .closing-section h2 .gradient-text {
+      background: linear-gradient(135deg, var(--ocean-glow), var(--y2k-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .closing-section p {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.5);
+      max-width: 480px;
+      margin: 0 auto 40px;
+    }
+
+    .closing-shark {
+      display: inline-block;
+      font-size: 3rem;
+      animation: shark-swim 3s ease-in-out infinite;
+    }
+
+    .footer-bar {
+      padding: 24px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-bar p {
+      font-family: var(--font-heading);
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ============================================
+       WAVE DIVIDERS
+    ============================================ */
+    .wave-divider {
+      width: 100%;
+      height: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wave-divider svg {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ============================================
+       SCROLLBAR
+    ============================================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--ocean-deep); }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--ocean-bright), var(--y2k-pink));
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── BACKGROUND ── -->
+  <div class="ocean-gradient-bg"></div>
+  <div class="light-rays" id="lightRays"></div>
+  <div class="particles" id="particles"></div>
+
+  <!-- ── NAVIGATION ── -->
+  <nav>
+    <img src="assets/sharks/Moeflavor-Heart-Logo white text.png" alt="MoeFlavor" class="nav-logo" />
+    <ul class="nav-links">
+      <li><a href="#story">Story</a></li>
+      <li><a href="#backstory">BTS</a></li>
+      <li><a href="#campaign">Campaign</a></li>
+      <li><a href="#marketing">Strategy</a></li>
+    </ul>
+  </nav>
+
+  <!-- ════════════════════════════════════════════
+       HERO SECTION
+  ════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-shark-bg">
+      <img src="assets/sharks/shark1 Background Removed.png" alt="" />
+    </div>
+
+    <div class="hero-content container">
+      <p class="hero-eyebrow">MoeFlavor Presents</p>
+      <h1>
+        <span class="gradient-text">Shark Challenge</span><br />
+        Campaign <span class="shark-emoji">&#x1F988;</span>
+      </h1>
+      <p class="hero-subtitle">
+        A story about <strong>choosing yourself</strong> over someone who never chose you.<br />
+        Wrapped in a cute shark set that makes you feel <strong>powerful</strong>.
+      </p>
+      <a href="#story" class="hero-cta">Dive Into The Story</a>
+    </div>
+
+    <div class="scroll-indicator">&#x25BE;</div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       THE STORY SECTION
+  ════════════════════════════════════════════ -->
+  <section class="story-section" id="story">
+    <div class="container">
+      <div class="story-header fade-up">
+        <span class="section-label section-label--pink">The Story</span>
+        <h2>She Always Changed<br /><span class="highlight">For Someone Who Never Changed For Her</span></h2>
+      </div>
+
+      <div class="story-narrative">
+        <!-- Single Story Card -->
+        <div class="story-card story-card--dark fade-up">
+          <span class="story-icon">&#x1F494;</span>
+          <p class="story-quote">
+            "I think my boyfriend never liked it when I showed my skin. Whenever we were ready to go out, he'd ask me to change if I'm showing my arms or my tummy. There are times it would get so bad that <strong>we'd get into arguments</strong>. I just don't believe that he's being protective when he's liking posts of girls showing more than me. <strong>I think he's ashamed of how I look.</strong>"
+          </p>
+
+          <span class="story-icon" style="margin-top: 32px;">&#x2728;</span>
+          <p class="story-quote">
+            "I did a photoshoot with the gift you gave me. <span class="ocean-highlight">I've never felt this cute</span> and loved with the compliments I had from people passing by and how I looked in the mirror. Even though I'm in a cute outfit, <span class="ocean-highlight">I've never felt more powerful.</span>"
+          </p>
+
+          <span class="story-icon" style="margin-top: 32px;">&#x1F988;</span>
+          <p class="story-quote">
+            "I've always complied with his requests. But moving on, <strong>I'm choosing myself first.</strong>"
+          </p>
+        </div>
+
+        <div class="story-closing fade-up">
+          <div class="divider-line"></div>
+          <p>
+            She didn't just wear a cute shark set.<br />
+            <span class="gradient-text">She wore her confidence back.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       IG LAUNCH PHOTOS
+  ════════════════════════════════════════════ -->
+  <section class="main-photos-section">
+    <div class="container">
+      <div class="main-photos-header fade-up">
+        <span class="section-label section-label--pink">IG Launch Photos</span>
+        <h2>The Photos That Tell Her Story</h2>
+      </div>
+
+      <div class="main-photos-grid">
+        <div class="main-photo-item fade-up">
+          <img src="assets/social-media/1.png" alt="Launch photo 1" />
+        </div>
+        <div class="main-photo-item fade-up fade-up-delay-1">
+          <img src="assets/social-media/2.png" alt="Launch photo 2" />
+        </div>
+        <div class="main-photo-item fade-up fade-up-delay-2">
+          <img src="assets/social-media/3.png" alt="Launch photo 3" />
+        </div>
+        <div class="main-photo-item fade-up">
+          <img src="assets/social-media/4.png" alt="Launch photo 4" />
+        </div>
+        <div class="main-photo-item fade-up fade-up-delay-1">
+          <img src="assets/social-media/5.png" alt="Launch photo 5" />
+        </div>
+        <div class="main-photo-item fade-up fade-up-delay-2">
+          <img src="assets/social-media/6.png" alt="Launch photo 6" />
+        </div>
+        <div class="main-photo-item fade-up">
+          <img src="assets/social-media/7.png" alt="Launch photo 7" />
+        </div>
+        <div class="main-photo-item fade-up fade-up-delay-1">
+          <img src="assets/social-media/8.png" alt="Launch photo 8" />
+        </div>
+        <div class="main-photo-item fade-up fade-up-delay-2">
+          <img src="assets/social-media/9.png" alt="Launch photo 9" />
+        </div>
+        <div class="main-photo-item fade-up">
+          <img src="assets/social-media/10.png" alt="Launch photo 10" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       BEHIND THE SCENES / BTS POST
+  ════════════════════════════════════════════ -->
+  <section class="backstory-section" id="backstory">
+    <div class="container">
+      <div class="backstory-grid">
+        <div class="backstory-visual fade-up">
+          <img src="assets/bts/1909af5a-eeb1-4c4a-9c0e-aaa574a4d9d6.JPG" alt="Team at Boracay" />
+        </div>
+
+        <div class="backstory-content fade-up fade-up-delay-1">
+          <span class="section-label section-label--ocean">BTS Post Caption</span>
+          <h2>How This Story <span class="highlight">Found Us</span></h2>
+          <p>
+            We took our whole team to <span class="ocean-text">Boracay</span> to bond, but one story stood out because we know so many girls can relate to this struggle. For the longest time, her ex made her feel <strong>ashamed of her body</strong>, starting arguments if she showed her arms or tummy&#8212;even while he was liking photos of other girls showing way more.
+          </p>
+          <p>
+            We gifted her an outfit for a photoshoot to help her reclaim her confidence, and seeing her finally <span class="ocean-text">feel cute and powerful</span> in the mirror made us all so emotional.
+          </p>
+          <p>
+            Standing in the sand with our matching anklets, it felt like she finally <strong>let go of his insecurities for good</strong> and started <span class="ocean-text">choosing herself first</span>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       CAMPAIGN STRATEGY - 3 POST SERIES
+  ════════════════════════════════════════════ -->
+  <section class="campaign-section" id="campaign">
+    <div class="container">
+      <div class="campaign-header fade-up">
+        <span class="section-label section-label--lavender">Campaign Plan</span>
+        <h2>The 3-Post Series</h2>
+        <p>Each post builds on the last. Emotion first, humor second, connection third.</p>
+      </div>
+
+      <div class="post-series">
+        <!-- POST 1: The Story -->
+        <div class="post-card post-card--story fade-up">
+          <span class="post-number post-number--1">Post 01</span>
+          <span class="post-emoji">&#x1F494; &#x2192; &#x1F988;</span>
+          <h3>The Story</h3>
+          <span class="post-type">Main Post &middot; Emotional Hook</span>
+          <p>
+            Her story, in her words. The kind of post that makes people stop scrolling, read every word, and flood the comments with their own experiences.
+          </p>
+          <p style="margin-top: 12px; color: rgba(255,255,255,0.45); font-size: 0.85rem;">
+            <em>Goal: High comment engagement, shares, saves</em>
+          </p>
+          <div class="post-image-slot" style="border: none; background: none;"><img src="assets/social-media/7.png" alt="Story post preview" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;" /></div>
+        </div>
+
+        <!-- POST 2: The Meme -->
+        <div class="post-card post-card--meme fade-up fade-up-delay-1">
+          <span class="post-number post-number--2">Post 02</span>
+          <span class="post-emoji">&#x1F602; &#x1F988;</span>
+          <h3>The Meme</h3>
+          <span class="post-type">Fun Post &middot; Shareability</span>
+          <p>
+            A meme that lands. Something relatable and shareable that keeps the conversation going &mdash; the fun follow-up that shows the brand's personality.
+          </p>
+          <p style="margin-top: 12px; color: rgba(255,255,255,0.45); font-size: 0.85rem;">
+            <em>Goal: Shares, tags, reach expansion</em>
+          </p>
+          <div class="post-image-slot" style="border: none; background: none;"><img src="assets/memes/90317ec2-a540-4fe4-b959-7729e220ecbc.JPG" alt="Meme preview" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;" /></div>
+        </div>
+
+        <!-- POST 3: The BTS -->
+        <div class="post-card post-card--bts fade-up fade-up-delay-2">
+          <span class="post-number post-number--3">Post 03</span>
+          <span class="post-emoji">&#x1F3AC; &#x1F496;</span>
+          <h3>The BTS</h3>
+          <span class="post-type">Connection Post &middot; Brand Depth</span>
+          <p>
+            Behind the scenes of the team building at Boracay. Shows the human side &mdash; a team that genuinely cares, bonds, and uplifts each other.
+          </p>
+          <p style="margin-top: 12px; color: rgba(255,255,255,0.45); font-size: 0.85rem;">
+            <em>Goal: Brand affinity, trust, follows</em>
+          </p>
+          <div class="post-image-slot" style="border: none; background: none;"><img src="assets/bts/bts2.JPG" alt="BTS post preview" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;" /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       MEME SECTION
+  ════════════════════════════════════════════ -->
+  <section class="meme-section" id="meme">
+    <div class="container">
+      <div class="meme-container fade-up">
+        <div class="meme-header">
+          <span class="section-label section-label--gold">Bonus Content</span>
+          <h2>The Meme &#x1F602;&#x1F988;</h2>
+          <p>Because every great campaign needs a laugh.</p>
+        </div>
+
+        <p class="meme-bold-title">A Shark Has<br />Washed Up On Shore!</p>
+
+        <div class="meme-slot">
+          <img src="assets/memes/90317ec2-a540-4fe4-b959-7729e220ecbc.JPG" alt="Shark meme" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       MARKETING ANALYSIS SECTION
+  ════════════════════════════════════════════ -->
+  <section class="marketing-section" id="marketing">
+    <div class="container">
+      <div class="marketing-header fade-up">
+        <span class="section-label section-label--lavender">Marketing Strategy</span>
+        <h2>Why This Campaign Works</h2>
+        <p>The psychology behind emotional storytelling in fashion marketing.</p>
+      </div>
+
+      <div class="marketing-grid">
+        <!-- Card 1 -->
+        <div class="marketing-card marketing-card--emotional fade-up">
+          <span class="card-icon">&#x1F497;</span>
+          <h3>Emotional Storytelling Sells</h3>
+          <p>
+            People don't buy products &mdash; they buy <strong>the feeling a product gives them</strong>. A cute shark set is just a design. But a shark set that represents choosing yourself, feeling powerful after heartbreak? That's an identity purchase. When your audience sees themselves in the story, they see themselves in the product.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="marketing-card marketing-card--engagement fade-up fade-up-delay-1">
+          <span class="card-icon">&#x1F4AC;</span>
+          <h3>Comment-Driven Engagement</h3>
+          <p>
+            Relatable stories trigger <strong>"me too" responses</strong> in comments. When followers share their own experiences, it creates organic social proof and extends reach through the algorithm. Based on past data, serious/emotional posts (like the Angela post) generate significantly higher engagement than standard product posts.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="marketing-card marketing-card--ugc fade-up">
+          <span class="card-icon">&#x1F4F1;</span>
+          <h3>User-Generated Content Pipeline</h3>
+          <p>
+            When customers feel personally connected to a brand's story, they're <strong>3x more likely to create their own content</strong> wearing the product. This meme + story combo gives people two reasons to share: emotional resonance AND humor. Each share is free advertising.
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="marketing-card marketing-card--conversion fade-up fade-up-delay-1">
+          <span class="card-icon">&#x1F4B0;</span>
+          <h3>Emotional Triggers Drive Conversion</h3>
+          <p>
+            The 3-post funnel is designed to move viewers from <strong>empathy to action</strong>. Post 1 hooks emotion. Post 2 keeps them engaged through humor. Post 3 deepens trust with authenticity. By the time they see the product, they're not buying a shark set &mdash; they're buying a statement.
+          </p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="marketing-stats fade-up">
+        <div class="stat-item">
+          <span class="stat-number stat-number--pink">3.2x</span>
+          <span class="stat-label">More Saves</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number stat-number--ocean">5x</span>
+          <span class="stat-label">More Comments</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number stat-number--gold">2.8x</span>
+          <span class="stat-label">More Shares</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number stat-number--lavender">40%</span>
+          <span class="stat-label">Higher CTR</span>
+        </div>
+      </div>
+
+      <!-- Funnel -->
+      <div class="marketing-funnel fade-up">
+        <h3>The Conversion Funnel</h3>
+        <div class="funnel-steps">
+          <div class="funnel-step funnel-step--1">&#x1F494; Story Post &mdash; Hook Emotion & Build Relatability</div>
+          <div class="funnel-arrow">&#x25BC;</div>
+          <div class="funnel-step funnel-step--2">&#x1F602; Meme Post &mdash; Expand Reach Through Shares</div>
+          <div class="funnel-arrow">&#x25BC;</div>
+          <div class="funnel-step funnel-step--3">&#x1F3AC; BTS Post &mdash; Build Trust & Brand Connection</div>
+          <div class="funnel-arrow">&#x25BC;</div>
+          <div class="funnel-step funnel-step--4">&#x1F6D2; Conversion &mdash; "I Want To Feel That Way Too"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       CLOSING
+  ════════════════════════════════════════════ -->
+  <section class="closing-section">
+    <div class="container fade-up">
+      <span class="closing-shark">&#x1F988;</span>
+      <h2>
+        She Chose Herself.<br />
+        <span class="gradient-text">And She Looks Incredible Doing It.</span>
+      </h2>
+      <p>The Shark Collection isn't just cute. It's a whole mood.</p>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer-bar">
+    <p>MoeFlavor &middot; Shark Challenge Campaign 2026</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       JAVASCRIPT
+  ════════════════════════════════════════════ -->
+  <script>
+    // ── Light rays ──
+    (function createLightRays() {
+      var container = document.getElementById('lightRays');
+      for (var i = 0; i < 8; i++) {
+        var ray = document.createElement('div');
+        ray.className = 'light-ray';
+        ray.style.left = (Math.random() * 100) + '%';
+        ray.style.height = (Math.random() * 40 + 30) + '%';
+        ray.style.animationDuration = (Math.random() * 8 + 8) + 's';
+        ray.style.animationDelay = (Math.random() * 6) + 's';
+        ray.style.opacity = (Math.random() * 0.3 + 0.1);
+        container.appendChild(ray);
+      }
+    })();
+
+    // ── Floating particles (bubbles + stars) ──
+    (function createParticles() {
+      var container = document.getElementById('particles');
+      for (var i = 0; i < 25; i++) {
+        var p = document.createElement('div');
+        var isStar = Math.random() > 0.6;
+        p.className = 'particle' + (isStar ? ' particle--star' : '');
+        p.style.left = (Math.random() * 100) + '%';
+        var size = isStar ? (Math.random() * 8 + 4) : (Math.random() * 10 + 4);
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        if (!isStar) {
+          p.style.background = 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(72,202,228,0.15))';
+        }
+        p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+        p.style.animationDelay = (Math.random() * 15) + 's';
+        container.appendChild(p);
+      }
+    })();
+
+    // ── Intersection Observer for scroll animations ──
+    (function initScrollAnimations() {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.fade-up').forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>
